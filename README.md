@@ -37,6 +37,10 @@ A python package to cross calibrate ResourceSat 2 sensors like LISS III, AWiFS o
 -   Free software: MIT license
 -   Documentation: https://akhi9661.github.io/cross_cal_resourcesat
 
+
+Note: At the moment, if `reference_sensor  = 'Landsat 8'`, path to reflectance images will have to provided in `inpf_ref`. 
+      The reprojection too is bit sketchy at the moment (defaults to `EPSG: 32643`). Will be fixed shortly.
+
 ---
 ## Credits
 
