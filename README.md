@@ -32,9 +32,12 @@ Note: Please make sure that both input and reference image have the same project
 A python package to cross calibrate ResourceSat 2 sensors like LISS III, AWiFS or LISS IV.
 
 
+-   Github repo: https://github.com/akhi9661/cross_cal_resourcesat
+-   PypI: https://pypi.org/project/cross-cal-resourcesat/
 -   Free software: MIT license
 -   Documentation: https://akhi9661.github.io/cross_cal_resourcesat
 
+---
 ## Credits
 
 This package was created with [Cookiecutter](https://github.com/cookiecutter/cookiecutter) and the [giswqs/pypackage](https://github.com/giswqs/pypackage) project template.
