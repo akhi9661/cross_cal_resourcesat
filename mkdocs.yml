@@ -18,9 +18,9 @@ theme:
         # - navigation.expand
         # - navigation.tabs
     custom_dir: "docs/overrides"
-        font:
-            text: Google Sans
-            code: Regular
+    font:
+        text: Google Sans
+        code: Regular
 
 plugins:
     - search
