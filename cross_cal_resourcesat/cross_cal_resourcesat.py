@@ -1,24 +1,13 @@
-'''
-This code module applies a "simple Spectral Band Adjustment Factor (SBAF)" on LISS III and AWiFS to calibrate them with the help
-of a reference image like Landsat 8 and Sentinel 2.
-Inputs:
-inpf_liss = path to folder LISS III or AWiFS bands
-inpf_ref = path to folder containing reference image bands
-Output:
-Final output folder: `Calibrated`
-Four temporary images are also generated which are automatically deleted after the execution. These are two composite images,
-one resampled image, and one clipped image
-Note: Please make sure that both input and reference image have the same projection system. If not, please reproject the input.
+""" The following package contains the functions to perform cross calibration between LISS III and AWiFS and the reference image. 
+"""
 
-'''
-                 
 import rasterio, os, re, math, glob, shutil
 from osgeo import gdal, osr, gdalconst
 import numpy as np
 
 def meta(inpf, keyword):
 
-    '''
+    """
     This function reads the metadata file of LISS III or AWiFS and returns the value of the keyword.
     Inputs:
         inpf = path to folder containing the metadata file
@@ -26,7 +15,7 @@ def meta(inpf, keyword):
 
     Output:
         meta = value of the keyword
-    '''
+    """
     
     file = open(glob.glob(os.path.join(inpf, '*_META.txt'))[0]).readlines()
     meta = ""
@@ -38,8 +27,8 @@ def meta(inpf, keyword):
 
 def toa_reflect(inpf, inp_name, opf, band_no):
 
-    '''
-    This function converts the radiance values to reflectance values.
+    """
+    This function converts the radiance values to reflectance values for LISS III and AWiFS. 
     Inputs:
         inpf = path to folder containing the radiance image
         inp_name = name of the radiance image
@@ -47,8 +36,8 @@ def toa_reflect(inpf, inp_name, opf, band_no):
         band_no = band number of the image
 
     Output:
-        op_name = name of the reflectance image
-    '''
+        None
+    """
     
     esol = {'B2': 1849.5, 'B3': 1553.0, 'B4': 1092.0, 'B5': 239.52}
     esol_band = list(esol.values())[band_no-2]
@@ -75,19 +64,19 @@ def toa_reflect(inpf, inp_name, opf, band_no):
     with rasterio.open(os.path.join(opf, op_name), 'w', **param) as r:
         r.write(reflectance, 1)
     
-    return 'Done'
+    return None
 
 def do_ref(inpf, opf):
 
-    '''
-    This function calls the toa_reflect function to convert the radiance values to reflectance values.
+    """
+    This function calls the `toa_reflect` function to convert the radiance values to reflectance values.
     Inputs:
         inpf = path to folder containing the radiance images
         opf = path to folder where the reflectance images will be saved
 
     Output:
         None
-    '''
+    """
     
     print('Radiance to reflectance conversion: LISS III/AWiFS.')
     
@@ -101,18 +90,19 @@ def do_ref(inpf, opf):
     
 def create_multiband_image(inpf_liss, inpf_ref, files_liss, files_ref, reference_sensor = 'Sentinel 2'):
 
-    '''
+    """
     This function creates a composite image from the reflectance images of LISS III and AWiFS and the reference image.
+    
     Inputs:
         inpf_liss = path to folder containing the reflectance images of LISS III or AWiFS
-        inpf_ref = path to folder containing the reflectance images of the reference image
+        inpf_ref = path to folder containing the the reference images
         files_liss = list of reflectance images of LISS III or AWiFS
         files_ref = list of reflectance images of the reference image
-        reference_sensor = name of the reference sensor. Default is 'Sentinel 2'
+        reference_sensor = name of the reference sensor. Default is 'Sentinel 2'. If reference_sensor = 'Landsat 8'
 
     Output:
         None
-    '''
+    """
     
     print('Stacking: LISS III/AWiFS.')
     with rasterio.open(os.path.join(inpf_liss, files_liss[0])) as src:
@@ -158,15 +148,16 @@ def create_multiband_image(inpf_liss, inpf_ref, files_liss, files_ref, reference
 
 def do_multiband(inpf_liss, inpf_ref):
 
-    '''
-    This function calls the create_multiband_image function to create a composite image from the reflectance images of LISS III and AWiFS and the reference image.
+    """
+    This function calls the `create_multiband_image` function to create a composite image from the reflectance images of LISS III and AWiFS and the reference image.
+    
     Inputs:
         inpf_liss = path to folder containing the reflectance images of LISS III or AWiFS
         inpf_ref = path to folder containing the reflectance images of the reference image
 
     Output:
         None
-    '''
+    """
     
     original = os.listdir(inpf_liss)
     gtif_liss = list(filter(lambda x: x.endswith(("tif", "TIF", "img")), original))
@@ -197,15 +188,16 @@ def resample_image(file_liss, file_ref):
 
 def calc_calibration(file_liss, file_ref):
 
-    '''
+    """
     This function calculates the calibration factors for the LISS III/AWiFS bands.
+    
     Inputs:
         file_liss = path to the composite image of LISS III or AWiFS
         file_ref = path to the composite image of the reference image
 
     Output:
         None
-    '''
+    """
     
     opf_resample = resample_image(file_liss, file_ref)
     
@@ -252,16 +244,18 @@ def calc_calibration(file_liss, file_ref):
 
 def do_calibration(inpf_liss, inpf_ref):
 
-    '''
+    """
     This is the main function. 
-    It calls the do_ref function to create the reflectance images of LISS III or AWiFS and the reference image.
+    It calls the `do_ref` function to create the reflectance images of LISS III or AWiFS and the reference image.
+    Then calls `do_mulitband` function to create layer stacks. Finally calls `calc_calibration` for calibration factors.
+    
     Inputs:
         inpf_liss = path to folder containing the reflectance images of LISS III or AWiFS
         inpf_ref = path to folder containing the reflectance images of the reference image
 
     Output:
         None
-    '''
+    """
 
     opf = os.path.join(inpf_liss, 'Reflectance')
     if os.path.exists(opf):
