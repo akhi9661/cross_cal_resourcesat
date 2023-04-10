@@ -1,11 +1,9 @@
 # Changelog
 
-## v0.0.1 - Date
+## v0.1.0 - 10/04/2023
 
-**Improvement**:
+- Added all the functions. Ready to use.
 
--   TBD
+## v0.0.1 - 09/04/2023
 
-**New Features**:
-
--   TBD
+- Initial change
