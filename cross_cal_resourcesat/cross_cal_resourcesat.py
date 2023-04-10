@@ -7,15 +7,14 @@ import numpy as np
 
 def meta(inpf, keyword):
 
-    """
-    This function reads the metadata file of LISS III or AWiFS and returns the value of the keyword.
-      
+    """ 
+    This function reads the metadata file of the LISS III and AWiFS images and returns the value of the keyword provided.
     Parameters:
-        inpf = path to folder containing the metadata file
-        keyword = keyword to be searched in the metadata file
+        inpf (str) = path to folder containing the radiance image and the *_META.txt file
+        keyword (str) = keyword to be searched in the metadata file
 
     Returns:
-        meta = value of the keyword
+        meta (float) = value of the keyword
     """
     
     file = open(glob.glob(os.path.join(inpf, '*_META.txt'))[0]).readlines()
@@ -30,11 +29,12 @@ def toa_reflect(inpf, inp_name, opf, band_no):
 
     """
     This function converts the radiance values to reflectance values for LISS III and AWiFS. 
+    
     Parameters:
-        inpf = path to folder containing the radiance image
-        inp_name = name of the radiance image
-        opf = path to folder where the reflectance image will be saved
-        band_no = band number of the image
+        inpf (str) = path to folder containing the radiance image
+        inp_name (str) = name of the radiance image
+        opf (str) = path to folder where the reflectance image will be saved
+        band_no (int) = band number of the image
 
     Returns:
         None
@@ -71,9 +71,10 @@ def do_ref(inpf, opf):
 
     """
     This function calls the `toa_reflect` function to convert the radiance values to reflectance values.
+    
     Parameters:
-        inpf = path to folder containing the radiance images
-        opf = path to folder where the reflectance images will be saved
+        inpf (str) = path to folder containing the radiance images
+        opf (str) = path to folder where the reflectance images will be saved
 
     Returns:
         None
@@ -89,17 +90,17 @@ def do_ref(inpf, opf):
     
     return None
     
-def create_multiband_image(inpf_liss, inpf_ref, files_liss, files_ref, reference_sensor = 'Sentinel 2'):
+def create_multiband_image(inpf_liss, inpf_ref, files_liss, files_ref, reference_sensor):
 
     """
     This function creates a composite image from the reflectance images of LISS III and AWiFS and the reference image.
     
     Parameters:
-        inpf_liss = path to folder containing the reflectance images of LISS III or AWiFS
-        inpf_ref = path to folder containing the the reference images
-        files_liss = list of reflectance images of LISS III or AWiFS
-        files_ref = list of reflectance images of the reference image
-        reference_sensor = name of the reference sensor. Default is 'Sentinel 2'. If reference_sensor = 'Landsat 8'
+        inpf_liss (str) = path to folder containing the reflectance images of LISS III or AWiFS
+        inpf_ref (str) = path to folder containing the reflectance reference images.
+        files_liss (str) = list of reflectance images of LISS III or AWiFS
+        files_ref (str) = list of reflectance images of the reference image
+        reference_sensor (str) = name of the reference sensor
 
     Returns:
         None
@@ -147,14 +148,15 @@ def create_multiband_image(inpf_liss, inpf_ref, files_liss, files_ref, reference
     
     return (op_liss, op_ref)
 
-def do_multiband(inpf_liss, inpf_ref):
+def do_multiband(inpf_liss, inpf_ref, reference_sensor):
 
     """
     This function calls the `create_multiband_image` function to create a composite image from the reflectance images of LISS III and AWiFS and the reference image.
     
     Parameters:
-        inpf_liss = path to folder containing the reflectance images of LISS III or AWiFS
-        inpf_ref = path to folder containing the reflectance images of the reference image
+        inpf_liss (str) = path to folder containing the reflectance images of LISS III or AWiFS
+        inpf_ref (str) = path to folder containing the reflectance images of the reference image
+        reference_sensor (str) = name of the reference sensor
 
     Returns:
         None
@@ -166,7 +168,7 @@ def do_multiband(inpf_liss, inpf_ref):
     original = os.listdir(inpf_ref)
     gtif_ref = list(filter(lambda x: x.endswith(("tif", "TIF", "img")), original))
     
-    op_liss, op_ref = create_multiband_image(inpf_liss, inpf_ref, gtif_liss, gtif_ref)
+    op_liss, op_ref = create_multiband_image(inpf_liss, inpf_ref, gtif_liss, gtif_ref, reference_sensor)
     return (op_liss, op_ref)
     
 def resample_image(file_liss, file_ref):
@@ -175,11 +177,11 @@ def resample_image(file_liss, file_ref):
     This function resamples the LISS III image to the reference image.
 
     Parameters:
-        file_liss = path to the LISS III image
-        file_ref = path to the reference image
+        file_liss (str) = path to the LISS III image
+        file_ref (str) = path to the reference image
 
     Returns:
-        opf_resample = path to the resampled LISS III image
+        opf_resample (str) = path to the resampled LISS III image
     """
     
     print('Resampling: LISS III to reference image')
@@ -204,8 +206,8 @@ def calc_calibration(file_liss, file_ref):
     This function calculates the calibration factors for the LISS III/AWiFS bands.
     
     Parameters:
-        file_liss = path to the composite image of LISS III or AWiFS
-        file_ref = path to the composite image of the reference image
+        file_liss (str) = path to the composite image of LISS III or AWiFS
+        file_ref (str) = path to the composite image of the reference image
 
     Returns:
         None
@@ -254,7 +256,7 @@ def calc_calibration(file_liss, file_ref):
     print("'Done'")
     return (sbaf, cal_liss, band_liss, band_reference)
 
-def do_calibration(inpf_liss, inpf_ref):
+def do_calibration(inpf_liss, inpf_ref, reference_sensor = 'Sentinel 2'):
 
     """
     This is the main function. 
@@ -264,6 +266,7 @@ def do_calibration(inpf_liss, inpf_ref):
     Parameters:
         inpf_liss = path to folder containing the reflectance images of LISS III or AWiFS
         inpf_ref = path to folder containing the reflectance images of the reference image
+        reference_sensor (str, optional) = name of the reference sensor. Default is 'Sentinel 2'
 
     Returns:
         None
@@ -276,7 +279,7 @@ def do_calibration(inpf_liss, inpf_ref):
 
     do_ref(inpf_liss, opf)
     
-    op_liss, op_ref = do_multiband(opf, inpf_ref)
+    op_liss, op_ref = do_multiband(opf, inpf_ref, reference_sensor)
     sbaf, cal_liss, ref_liss, ref_band = calc_calibration(op_liss, op_ref)
     
     return None
