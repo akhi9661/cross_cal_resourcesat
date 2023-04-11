@@ -11,19 +11,17 @@
 
 ## Introduction
 
-This code module applies a simple cross calibration on LISS III and AWiFS to calibrate them with the help
-of a reference image like Landsat 8 and Sentinel 2.
+This package applies a cross calibrates LISS III and AWiFS with the help of a reference image like Landsat 8 and Sentinel 2.
 
 Takes two inputs:
 - `inpf_liss` = path to folder LISS III or AWiFS bands
-- `inpf_ref` = path to folder containing reference image bands
+- `inpf_ref` = path to folder containing reference image bands. Could be `Landsat 8` or `Sentinel 2`.
 
 Final output folder: 
 - `inpf_liss\Reflectance\Calibration`
 
 Four temporary images are also generated which are automatically deleted after the execution. These are two composite images,
 one resampled image, and one clipped image
-Note: Please make sure that both input and reference image have the same projection system. If not, please reproject the input.
 
 ---
 
@@ -39,7 +37,6 @@ A python package to cross calibrate ResourceSat 2 sensors like LISS III, AWiFS o
 
 
 Note: At the moment, if `reference_sensor  = 'Landsat 8'`, path to reflectance images will have to provided in `inpf_ref`. 
-      The reprojection too is bit sketchy at the moment (defaults to `EPSG: 32643`). Will be fixed shortly.
 
 ---
 ## Credits
