@@ -15,7 +15,7 @@ This package applies a cross calibrates LISS III and AWiFS with the help of a re
 
 Takes two inputs:
 - `inpf_liss` = path to folder LISS III or AWiFS bands
-- `inpf_ref` = path to folder containing reference image bands. Could be `Landsat 8` or `Sentinel 2`.
+- `inpf_ref` = path to folder containing reference image bands. Could be Landsat 8 or Sentinel 2.
 
 Final output folder: 
 - `inpf_liss\Reflectance\Calibration`
@@ -37,6 +37,26 @@ A python package to cross calibrate ResourceSat 2 sensors like LISS III, AWiFS o
 
 
 Note: At the moment, if `reference_sensor  = 'Landsat 8'`, path to reflectance images will have to provided in `inpf_ref`. 
+
+---
+## How to use
+
+- Clone the repository in the desired folder.
+
+```
+git clone https://github.com/akhi9661/cross_cal_resourcesat.git
+```
+
+In case this fails, download the zip file and extract it in a folder. 
+
+- Install the required dependencies.
+
+```
+pip install -r requirements.txt
+```
+If it throws up an error, create a new virtual environment and install the dependencies. Installation of `GDAL` and `rasterio` is complex and generally fails in the base environment or an already existing environment. Creating a new virtual environment generally resolves this.
+
+
 
 ---
 ## Credits
