@@ -187,6 +187,7 @@ def resample_image(file_liss, file_ref):
     print('Resampling: LISS III to reference image')
     
     reference = gdal.Open(file_ref, 0)
+    projection = reference.GetProjectionRef()
     referenceTrans = reference.GetGeoTransform()
     x_res = referenceTrans[1]
     y_res = -referenceTrans[5]
@@ -194,7 +195,7 @@ def resample_image(file_liss, file_ref):
     opf_resample = os.path.join(os.path.dirname(file_liss), os.path.basename(file_liss).split('.')[0] + '_resample.TIF')
 
     kwargs = {"format": "GTiff", "xRes": x_res, "yRes": y_res}
-    ds = gdal.Warp(opf_resample, file_liss, dstSRS = 'EPSG:32643', **kwargs)
+    ds = gdal.Warp(opf_resample, file_liss, dstSRS = projection, **kwargs)
     ds = None
     
     return opf_resample
