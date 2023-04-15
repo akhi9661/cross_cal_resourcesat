@@ -4,7 +4,7 @@
 import rasterio, os, re, math, glob, shutil
 from osgeo import gdal, osr, gdalconst
 import numpy as np 
-from .landsat import landsat_ref
+from cross_cal_resourcesat.landsat import *
 
 def meta(inpf, keyword):
 
