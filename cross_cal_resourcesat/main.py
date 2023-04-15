@@ -1,5 +1,4 @@
-import landsat
-from cross_cal_resourcesat import do_calibration
+from ..cross_cal_resourcesat.cross_cal_resourcesat import do_calibration
 
 def main():
 
