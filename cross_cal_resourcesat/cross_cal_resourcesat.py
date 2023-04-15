@@ -3,7 +3,8 @@
 
 import rasterio, os, re, math, glob, shutil
 from osgeo import gdal, osr, gdalconst
-import numpy as np
+import numpy as np 
+from .landsat import landsat_ref
 
 def meta(inpf, keyword):
 
@@ -92,7 +93,6 @@ def do_ref(inpf, opf):
     
 def create_multiband_image(inpf_liss, inpf_ref, files_liss, files_ref, reference_sensor):
 
-    from cross_cal_resourcesat import landsat
     """
     This function creates a composite image from the reflectance images of LISS III and AWiFS and the reference image.
     
@@ -137,7 +137,7 @@ def create_multiband_image(inpf_liss, inpf_ref, files_liss, files_ref, reference
 
     elif reference_sensor == 'Landsat 8':
         for i, filename in enumerate(files_ref):
-            opf = landsat.landsat_ref(inpf_ref, filename)
+            opf = landsat_ref(inpf_ref, filename)
             with rasterio.open(os.path.join(opf, filename)) as src:
                 multi_band_ref[:,:,i] = src.read(1).astype('float32')
     
@@ -295,8 +295,6 @@ def do_calibration(inpf_liss, inpf_ref, reference_sensor):
     
 if __name__ == '__main__':
 
-    import landsat
-    
     reference_sensor = input('Enter the name of the reference sensor ["Sentinel 2", "Landsat 8", "Others"]: ')
     inpf_liss = input('Enter the path to the folder containing the radiance images of LISS III or AWiFS [inpf_liss]: ')
     if reference_sensor == 'Others':
