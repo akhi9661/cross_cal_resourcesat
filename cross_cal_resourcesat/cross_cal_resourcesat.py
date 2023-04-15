@@ -92,6 +92,7 @@ def do_ref(inpf, opf):
     
 def create_multiband_image(inpf_liss, inpf_ref, files_liss, files_ref, reference_sensor):
 
+    from cross_cal_resourcesat import landsat
     """
     This function creates a composite image from the reflectance images of LISS III and AWiFS and the reference image.
     
@@ -135,6 +136,12 @@ def create_multiband_image(inpf_liss, inpf_ref, files_liss, files_ref, reference
                 multi_band_ref[:,:,i] = src.read(1).astype('float32')*0.0001
 
     elif reference_sensor == 'Landsat 8':
+        for i, filename in enumerate(files_ref):
+            opf = landsat.landsat_ref(inpf_ref, filename)
+            with rasterio.open(os.path.join(opf, filename)) as src:
+                multi_band_ref[:,:,i] = src.read(1).astype('float32')
+    
+    else:
         for i, filename in enumerate(files_ref):
             with rasterio.open(os.path.join(inpf_ref, filename)) as src:
                 multi_band_ref[:,:,i] = src.read(1).astype('float32')
@@ -257,7 +264,7 @@ def calc_calibration(file_liss, file_ref):
     print("'Done'")
     return (sbaf, cal_liss, band_liss, band_reference)
 
-def do_calibration(inpf_liss, inpf_ref, reference_sensor = 'Sentinel 2'):
+def do_calibration(inpf_liss, inpf_ref, reference_sensor):
 
     """
     This is the main function. 
@@ -267,7 +274,7 @@ def do_calibration(inpf_liss, inpf_ref, reference_sensor = 'Sentinel 2'):
     Parameters:
             inpf_liss (str): path to folder containing the reflectance images of LISS III or AWiFS
             inpf_ref (str): path to folder containing the reflectance images of the reference image
-            reference_sensor (str, optional): name of the reference sensor. Default is 'Sentinel 2'
+            reference_sensor (str, optional): name of the reference sensor.
 
     Returns:
             None
@@ -284,3 +291,14 @@ def do_calibration(inpf_liss, inpf_ref, reference_sensor = 'Sentinel 2'):
     sbaf, cal_liss, ref_liss, ref_band = calc_calibration(op_liss, op_ref)
     
     return None
+    
+    
+if __name__ == '__main__':
+
+    reference_sensor = input('Enter the name of the reference sensor ["Sentinel 2", "Landsat 8", "Others"]: ')
+    inpf_liss = input('Enter the path to the folder containing the radiance images of LISS III or AWiFS [inpf_liss]: ')
+    if reference_sensor == 'Others':
+        print('\nNote: If "reference_sensor" is "Others", "inpf_ref" should be the path to reflectance images.')
+    inpf_ref = input('Enter the path to the folder containing the radiance images of the reference image [inpf_ref]:')
+
+    do_calibration(inpf_liss = inpf_liss, inpf_ref = inpf_ref, reference_sensor = reference_sensor)
