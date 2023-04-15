@@ -3,7 +3,7 @@ import cross_cal_resourcesat
 def main():
 
     reference_sensor = input('Enter the name of the reference sensor ["Sentinel 2", "Landsat 8", "Others"]: ')
-    inpf_liss = input('Enter the path to the folder containing the radiance images of LISS III or AWiFS [inpf_liss]: ')
+    inpf_liss = input('Enter the path to the folder containing the radiance images of LISS III or AWiFS [inpf_uncalibrated]: ')
     if reference_sensor == 'Others':
         print('Note: If "reference_sensor" is "Others", "inpf_ref" should be the path to reflectance images.')
     inpf_ref = input('Enter the path to the folder containing the reference images [inpf_ref]:')
