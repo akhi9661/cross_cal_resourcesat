@@ -3,9 +3,10 @@
 
 [![image](https://img.shields.io/pypi/v/cross_cal_resourcesat.svg)](https://pypi.python.org/pypi/cross_cal_resourcesat)
 [![image](https://img.shields.io/conda/vn/conda-forge/cross_cal_resourcesat.svg)](https://anaconda.org/conda-forge/cross_cal_resourcesat)
-[![Python Versions](https://img.shields.io/pypi/pyversions/ocm2.svg)](https://pypi.org/project/cross_cal_resourcesat/)
+[![Python Versions](https://img.shields.io/pypi/pyversions/cross_cal_resourcesat.svg)](https://pypi.org/project/cross_cal_resourcesat/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![image](https://github.com/opengeos/leafmap/workflows/docs/badge.svg)](https://github.com/akhi9661/cross_cal_resourcesat)
+[![image](https://github.com/akhi9661/cross_cal_resourcesat/workflows/docs/badge.svg)](https://github.com/akhi9661/cross_cal_resourcesat)
+[![image](https://github.com/akhi9661/cross_cal_resourcesat/workflows/Linux%20build/badge.svg)](https://github.com/akhi9661/cross_cal_resourcesat/actions)
 
 ---
 
