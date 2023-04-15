@@ -1,4 +1,0 @@
-if __name__ == '__main__':
-    do_calibration(inpf_liss = input('Enter the path to the folder containing the reflectance images of LISS III or AWiFS: '), 
-                   inpf_ref = input('Enter the path to the folder containing the reflectance images of the reference image:'), 
-                   reference_sensor = input('Enter the name of the reference sensor [Default is Sentinel 2]: '))
