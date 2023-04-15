@@ -4,7 +4,7 @@
 import rasterio, os, re, math, glob, shutil
 from osgeo import gdal, osr, gdalconst
 import numpy as np 
-from cross_cal_resourcesat.landsat import landsat_ref
+from cross_cal_resourcesat import landsat
 
 def meta(inpf, keyword):
 
@@ -137,7 +137,7 @@ def create_multiband_image(inpf_liss, inpf_ref, files_liss, files_ref, reference
 
     elif reference_sensor == 'Landsat 8':
         for i, filename in enumerate(files_ref):
-            opf = landsat_ref(inpf_ref, filename)
+            opf = landsat.landsat_ref(inpf_ref, filename)
             with rasterio.open(os.path.join(opf, filename)) as src:
                 multi_band_ref[:,:,i] = src.read(1).astype('float32')
     
