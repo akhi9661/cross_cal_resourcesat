@@ -295,8 +295,8 @@ def do_calibration(inpf_liss, inpf_ref, reference_sensor):
     
 if __name__ == '__main__':
 
-    from cross_cal_resourcesat import landsat
-
+    import landsat
+    
     reference_sensor = input('Enter the name of the reference sensor ["Sentinel 2", "Landsat 8", "Others"]: ')
     inpf_liss = input('Enter the path to the folder containing the radiance images of LISS III or AWiFS [inpf_liss]: ')
     if reference_sensor == 'Others':
