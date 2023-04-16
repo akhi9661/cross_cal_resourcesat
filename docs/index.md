@@ -9,11 +9,6 @@
 
 -   Free software: MIT license
 -   Documentation: <https://akhi9661.github.io/cross_cal_resourcesat>
-    
-
-## Features
-
--   TODO
 
 ## Credits
 
