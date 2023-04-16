@@ -54,7 +54,7 @@ nav:
     - Changelog: changelog.md
     - Report Issues: https://github.com/akhi9661/cross_cal_resourcesat/issues
     - Examples: 
-          - docs\Introduction.ipynb
+          - Introduction.ipynb
     - API Reference:
           - cross_cal_resourcesat module: cross_cal_resourcesat.md
           - landsat module: landsat.md
